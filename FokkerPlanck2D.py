@@ -68,11 +68,11 @@ def By(x, y, params):
 D = 5 * 1e-3
 xmin, xmax = 0, 3
 ymin, ymax = 0, 3
-dx, dy = 5*1e-2, 5*1e-2
-dt = 1e-3
+dx, dy = 1e-3, 1e-3
+dt = 5*1e-4
 tmax = 20.1
 t_save_list = [10, 15, 20]
-t_print_list = [0.1, 5, 10, 12, 15, 20]
+t_print_list = [0.1, 1, 5, 10, 15, 20]
 filename = "FokkerPlanckSolution"
 
 ## SPECIFIC PARAMETERS (Genetic toggle switch model)
@@ -80,12 +80,6 @@ a, b, k = 1, 1, 1
 n, S = 4, 0.5
 Sn = S**n
 params = (a, b, k, n, Sn)
-
-
-tmax = 0.003
-t_save_list = [0.002]
-t_print_list = [0.001, 0.002, 0.003]
-
 
 # --------------------------------------------------------------------------------
 # INITIAL CONDITION: Dirac delta distribution centered at (x0, y0)
@@ -103,7 +97,7 @@ P /= np.sum(P) * dx * dy
 # VISUALIZATION OF THE PROBABILITY DISTRIBUTION
 # --------------------------------------------------------------------------------
 
-def plot_FokkerPlanck(P, xmin, xmax, ymin, ymax):
+def plot_FokkerPlanck(P, xmin, xmax, ymin, ymax, dx, dy):
     
     fs = 23
     plt.rcParams.update({'font.size': fs})
@@ -132,7 +126,6 @@ def plot_FokkerPlanck(P, xmin, xmax, ymin, ymax):
     plt.xlabel(r"$x$", loc = "right")
     plt.ylabel(r"$y$", loc = "top", rotation = 0)
     plt.show()
-
 
 # --------------------------------------------------------------------------------
 # AUXILIARY FUNCTIONS TO PERFORM THE NUMERICAL INTEGRATION 
@@ -243,7 +236,6 @@ def operator_I_plus_Lx(P, RHS, Qx_arr, Rx_arr, Sx_arr, nux_2):
             elif i == Nx-1: RHS[j, i] = P[j, i] + nux_2 * (Qx * P[j,i-1] + Rx * P[j,i])
             else: RHS[j, i] = P[j, i] + nux_2 * (Qx * P[j,i-1] + Rx * P[j,i] + Sx * P[j,i+1])
 
-
 @njit
 def adi_onestep(P, P_mid, Nx, Ny, Qx_arr, Rx_arr, Sx_arr, Qy_arr, Ry_arr, Sy_arr, nux_2, nuy_2, RHS_stepx, RHS_stepy, a_x, b_x, c_x, a_y, b_y, c_y): 
     # Advances the probability distribution by one time step using the ADI integration scheme.
@@ -328,5 +320,5 @@ t1 = time.time()
 P = integrate_FokkerPlanck(P, D, xmin, ymin, xmax, ymax, dx, dy, dt, tmax, t_save_list, t_print_list, filename, params)
 print("###########")
 print("Total computation time (s) =", time.time() - t1)
-plot_FokkerPlanck(P, xmin, xmax, ymin, ymax)
+plot_FokkerPlanck(P, xmin, xmax, ymin, ymax, dx, dy)
 
