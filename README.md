@@ -6,7 +6,15 @@ $\partial_t P(x,y;t) = -\partial_x \left[ P(x,y;t) F_x(x,y) \right] -\partial_y 
 
 To numerically integrate this equation, we employ a finite-difference discretization in space combined with an alternating-direction implicit (ADI) scheme for time integration, which reduces the multidimensional problem to a sequence of one-dimensional tridiagonal systems.
 
-Further details on the numerical scheme can be found in `NumericalScheme.pdf`.
+Further details on the numerical scheme can be found in the Supplemental Material of [1].
 
 The code is designed for reproducibility and can be adapted to a wide class of reaction–diffusion problems.
+
+## How to cite
+
+If you use this code in your research, please cite:
+
+> [1] *The nature of stochastic fluctuations shapes transition dynamics in cell-type switching*
+> 
+> Sara Oliver-Bonafoux, Javier Aguilar, Tobias Galla, and Raúl Toral
 
